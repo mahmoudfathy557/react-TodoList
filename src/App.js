@@ -6,21 +6,33 @@ import TodoList from './components/TodoList'
 // showing vs-code github setu p
 class App extends Component {
   state = {
-    items: [
-      { id: 1, title: 'wake up' },
-      { id: 2, title: 'buy stuff' },
-      { id: 3, title: 'go  walking' },
-    ],
+    items: [],
     id: uuid(),
     item: '',
     editItem: false,
   }
 
   handleChange = (e) => {
-    console.log('handlechange')
+    this.setState({
+      item: e.target.value,
+    })
   }
   handleSubmit = (e) => {
-    console.log('handleSubmit')
+    e.preventDefault()
+    const newItem = {
+      id: this.state.id,
+      title: this.state.item,
+    }
+    const updatedItems = [...this.state.items, newItem]
+    this.setState(
+      {
+        items: updatedItems,
+        item: '',
+        id: uuid(),
+        editItem: false,
+      },
+      () => console.log(this.state)
+    )
   }
   clearList = (e) => {
     console.log('clear list')
@@ -45,6 +57,7 @@ class App extends Component {
                 handleSubmit={this.handleSubmit}
                 editItem={this.state.editItem}
               />
+
               <TodoList
                 items={this.state.items}
                 clearList={this.clearList}
