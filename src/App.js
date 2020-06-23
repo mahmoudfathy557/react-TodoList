@@ -24,24 +24,33 @@ class App extends Component {
       title: this.state.item,
     }
     const updatedItems = [...this.state.items, newItem]
-    this.setState(
-      {
-        items: updatedItems,
-        item: '',
-        id: uuid(),
-        editItem: false,
-      },
-      () => console.log(this.state)
-    )
+    this.setState({
+      items: updatedItems,
+      item: '',
+      id: uuid(),
+      editItem: false,
+    })
   }
-  clearList = (e) => {
-    console.log('clear list')
+  clearList = () => {
+    this.setState({ items: [] })
   }
   handleDelete = (id) => {
-    console.log('handle delete ', id)
+    const { items } = this.state
+    const filteredItems = items.filter((item) => item.id !== id)
+    this.setState({
+      items: filteredItems,
+    })
   }
   handleEdit = (id) => {
-    console.log('editing ', id)
+    const { items } = this.state
+    const filteredItems = items.filter((item) => item.id !== id)
+    const selectedItem = this.state.items.find((item) => item.id === id)
+    this.setState({
+      items: filteredItems,
+      item: selectedItem.title,
+      id: id,
+      editItem: true,
+    })
   }
 
   render() {
